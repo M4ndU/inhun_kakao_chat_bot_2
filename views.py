@@ -22,7 +22,7 @@ api_info += '후원 받습니다'
 
 def lunch(l_date):
     l_date = lunch_match(l_date)
-    if (lunch != 0 && dinner != 0):
+    if (lunch != 0 and dinner != 0):
         ll_diet = ""
         ll_diet = get_diet(l_date)
     else:
