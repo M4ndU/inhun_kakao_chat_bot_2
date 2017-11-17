@@ -1,5 +1,21 @@
-inhun_kakao_api
+inhun_kakao_api2
+============
 
-Django 프레임워크 사용
+- - -
 
-views.py만 업로드, 추후 urls.py도 업로드
+요구 사항
+-------------
+
+- __python 3.4.2+__
+- __Django framework__
+- __json__ library
+- __datetime__ library
+
+- __inhun_discord_bot/datematch.py__
+- __inhun_discord_bot/scrapture.py__
+
+- - -
+
+실행
+-------
+> python3 manage.py runserver [ip]:[port]
