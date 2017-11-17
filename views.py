@@ -4,15 +4,16 @@ from django.http import JsonResponse
 from pytz import timezone
 import datetime , json
 import sys
-sys.path.insert(0, "/home/mandu/project/discord_bot/")
+sys.path.insert(0, "/home/mandu/project/discord_bot2/")
+#sys.path.insert(0, "inhun_discord_bot2 경로")
 from web3 import *
 
 
 #api info
 api_info =(
             '[인헌고 알리미 정보]\n'
-            '개발자 : 인헌고등학교 성민규\n'
-            '자율동아리 WH0a 부장'
+            '개발자 : \n'
+            '자율동아리'
             )
 
 
