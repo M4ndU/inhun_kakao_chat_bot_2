@@ -5,38 +5,16 @@ from pytz import timezone
 import datetime , json
 import sys
 sys.path.insert(0, "/home/mandu/project/discord_bot/")
-#sys.path.insert(0, "inhun_discord_bot 경로")
-from scrapture import *
-from datematch import *
-#
+from web3 import *
 
 
 #api info
-api_info = ""
-api_info += '[인헌고 알리미 정보]\n'
-api_info += '급식을 알려드립니다.\n'
-api_info += '2017년 11월 2일 V1.0.0\n'
-api_info += '개발자 : 인헌고등학교 10810 성민규\n'
-api_info += '자율동아리 WH0a 부장\n'
-api_info += '후원 받습니다'
+api_info =(
+            '[인헌고 알리미 정보]\n'
+            '개발자 : 인헌고등학교 성민규\n'
+            '자율동아리 WH0a 부장'
+            )
 
-def lunch(l_date):
-    l_date = lunch_match(l_date)
-    if (lunch != 0 and dinner != 0):
-        ll_diet = ""
-        ll_diet = get_diet(l_date)
-    else:
-        ll_diet = "급식 정보가 없습니다."
-    return ll_diet
-
-def dinner(d_date):
-    d_date = dinner_match(d_date)
-    if (lunch != 0 and dinner != 0):
-        dd_diet = ""
-        dd_diet = get_diet(d_date)
-    else:
-        dd_diet = ":("
-    return dd_diet
 
 def keyboard(request):
 
@@ -55,16 +33,28 @@ def answer(request):
     #date
     dt1 = datetime.datetime.today()
     dt2 = datetime.datetime.today() + datetime.timedelta(days=1)
-    local_date1 = dt1.strftime("%m%d")
-    local_date2 = dt2.strftime("%m%d")
+    local_date1 = dt1.strftime("%Y.%m.%d")
+    local_date2 = dt2.strftime("%Y.%m.%d")
+    local_weekday1 = dt1.weekday()
+    local_weekday2 = dt2.weekday()
+
+    print(datacontent)
 
     if datacontent == '오늘 급식':
-        meal_date = int(local_date1)
-        l_l = lunch(meal_date)
-        d_d = dinner(meal_date)
+        meal_date = str(local_date1)
+        l_wkday = int(local_weekday1)
+        l_l = get_diet(2, meal_date, l_wkday)
+        d_d = get_diet(3, meal_date, l_wkday)
+
+        if len(l_l) == 1:
+            lunch = "급식이 없습니다."
+        else:
+            lunch = meal_date + " 중식\n" + l_l
+            dinner = meal_date + " 석식\n" + d_d
+
         return JsonResponse({
                 'message': {
-                    'text': l_l + "\n\n" + d_d
+                    'text': lunch + dinner
                 },
                 'keyboard': {
                     'type':'buttons',
@@ -73,12 +63,21 @@ def answer(request):
 
             })
     elif datacontent == '내일 급식':
-        meal_date = int(local_date2)
-        l_l = lunch(meal_date)
-        d_d = dinner(meal_date)
+        meal_date = str(local_date2)
+        l_wkday = int(local_weekday2)
+        l_l = get_diet(2, meal_date, l_wkday)
+        d_d = get_diet(3, meal_date, l_wkday)
+
+        if len(l_l) == 1:
+            lunch = "급식이 없습니다."
+            dinner = ""
+        else:
+            lunch = meal_date + " 중식\n" + l_l
+            dinner = meal_date + " 석식\n" + d_d
+
         return JsonResponse({
                 'message': {
-                    'text': l_l + "\n\n" + d_d
+                    'text': lunch + dinner
                 },
                 'keyboard': {
                     'type':'buttons',
