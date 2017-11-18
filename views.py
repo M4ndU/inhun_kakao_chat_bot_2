@@ -49,6 +49,7 @@ def answer(request):
 
         if len(l_l) == 1:
             lunch = "급식이 없습니다."
+            dinner = ""
         else:
             lunch = meal_date + " 중식\n" + l_l
             dinner = meal_date + " 석식\n" + d_d
