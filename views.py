@@ -4,16 +4,14 @@ from django.http import JsonResponse
 from pytz import timezone
 import datetime , json
 import sys
-sys.path.insert(0, "/home/mandu/project/discord_bot2/")
-#sys.path.insert(0, "inhun_discord_bot2 경로")
+sys.path.insert(0, "inhun_discord_chat_bot_2 경로")
 from web3 import *
 
 
 #api info
 api_info =(
             '[인헌고 알리미 정보]\n'
-            '개발자 : \n'
-            '자율동아리'
+            '개발자 : '
             )
 
 
@@ -50,6 +48,9 @@ def answer(request):
         if len(l_l) == 1:
             lunch = "급식이 없습니다."
             dinner = ""
+        elif len(d_d) == 1:
+            lunch = meal_date + " 중식\n" + l_l
+            dinner = ""
         else:
             lunch = meal_date + " 중식\n" + l_l
             dinner = meal_date + " 석식\n" + d_d
@@ -72,6 +73,9 @@ def answer(request):
 
         if len(l_l) == 1:
             lunch = "급식이 없습니다."
+            dinner = ""
+        elif len(d_d) == 1:
+            lunch = meal_date + " 중식\n" + l_l
             dinner = ""
         else:
             lunch = meal_date + " 중식\n" + l_l
