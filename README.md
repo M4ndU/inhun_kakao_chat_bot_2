@@ -1,4 +1,4 @@
-inhun_kakao_api2
+inhun_kakao_chat_bot_2
 ============
 
 - - -
@@ -11,7 +11,7 @@ inhun_kakao_api2
 - __json__ library
 - __datetime__ library
 
-- __inhun_discord_bot2/parser.py__
+- __inhun_discord_chat_bot_2/parser.py__
 
 - - -
 
