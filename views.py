@@ -5,7 +5,7 @@ from pytz import timezone
 import datetime , json
 import sys
 sys.path.insert(0, "inhun_discord_chat_bot_2 경로")
-from web3 import *
+from parser import *
 
 
 #api info
