@@ -15,6 +15,43 @@ api_info =(
             )
 
 
+def get_meal(dt):
+
+    local_date = dt.strftime("%Y.%m.%d")
+    local_weekday = dt.weekday()
+    
+    l_l = get_diet(2, local_date, local_weekday)
+
+    if len(l_l) == 1:
+        lunch = "급식이 없습니다."
+        return lunch
+
+    else:
+        d_d = get_diet(3, local_date, local_weekday)
+        print('hi5')
+        if len(d_d) == 1:
+            lunch = meal_date + " 중식\n" + l_l
+            dinner = ""
+        else:
+            lunch = meal_date + " 중식\n" + l_l
+            dinner = meal_date + " 석식\n" + d_d
+
+    return lunch + dinner
+
+
+
+def ret_proc(output):
+    return JsonResponse({
+            'message': {
+                'text': output
+            },
+            'keyboard': {
+                'type':'buttons',
+                'buttons':['오늘 급식','내일 급식','API 정보']
+            }
+        })
+
+
 def keyboard(request):
 
     return JsonResponse({
@@ -29,77 +66,17 @@ def answer(request):
     received_json_data = json.loads(json_str)
     datacontent = received_json_data['content']
 
-    #date
-    dt1 = datetime.datetime.today()
-    dt2 = datetime.datetime.today() + datetime.timedelta(days=1)
-    local_date1 = dt1.strftime("%Y.%m.%d")
-    local_date2 = dt2.strftime("%Y.%m.%d")
-    local_weekday1 = dt1.weekday()
-    local_weekday2 = dt2.weekday()
-
     print(datacontent)
 
     if datacontent == '오늘 급식':
-        meal_date = str(local_date1)
-        l_wkday = int(local_weekday1)
-        l_l = get_diet(2, meal_date, l_wkday)
-        d_d = get_diet(3, meal_date, l_wkday)
+        dt = datetime.datetime.today()
+        diet = get_meal(dt)
+        return ret_proc(diet)
 
-        if len(l_l) == 1:
-            lunch = "급식이 없습니다."
-            dinner = ""
-        elif len(d_d) == 1:
-            lunch = meal_date + " 중식\n" + l_l
-            dinner = ""
-        else:
-            lunch = meal_date + " 중식\n" + l_l
-            dinner = meal_date + " 석식\n" + d_d
-
-        return JsonResponse({
-                'message': {
-                    'text': lunch + dinner
-                },
-                'keyboard': {
-                    'type':'buttons',
-                    'buttons':['오늘 급식','내일 급식','API 정보']
-                }
-
-            })
     elif datacontent == '내일 급식':
-        meal_date = str(local_date2)
-        l_wkday = int(local_weekday2)
-        l_l = get_diet(2, meal_date, l_wkday)
-        d_d = get_diet(3, meal_date, l_wkday)
+        dt = datetime.datetime.today() + datetime.timedelta(days=1)
+        diet = get_meal(dt)
+        return ret_proc(diet)
 
-        if len(l_l) == 1:
-            lunch = "급식이 없습니다."
-            dinner = ""
-        elif len(d_d) == 1:
-            lunch = meal_date + " 중식\n" + l_l
-            dinner = ""
-        else:
-            lunch = meal_date + " 중식\n" + l_l
-            dinner = meal_date + " 석식\n" + d_d
-
-        return JsonResponse({
-                'message': {
-                    'text': lunch + dinner
-                },
-                'keyboard': {
-                    'type':'buttons',
-                    'buttons':['오늘 급식','내일 급식','API 정보']
-                }
-
-            })
     elif datacontent == 'API 정보':
-        return JsonResponse({
-                'message': {
-                    'text': api_info
-                },
-                'keyboard': {
-                    'type':'buttons',
-                    'buttons':['오늘 급식','내일 급식','API 정보']
-                }
-
-
-            })
+        return ret_proc(api_info)
