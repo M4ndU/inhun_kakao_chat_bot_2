@@ -30,11 +30,11 @@ def get_meal(dt):
         d_d = get_diet(3, local_date, local_weekday)
         print('hi5')
         if len(d_d) == 1:
-            lunch = meal_date + " 중식\n" + l_l
+            lunch = local_date + " 중식\n" + l_l
             dinner = ""
         else:
-            lunch = meal_date + " 중식\n" + l_l
-            dinner = meal_date + " 석식\n" + d_d
+            lunch = local_date + " 중식\n" + l_l
+            dinner = local_date + " 석식\n" + d_d
 
     return lunch + dinner
 
