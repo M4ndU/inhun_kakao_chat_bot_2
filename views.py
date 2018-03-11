@@ -7,19 +7,14 @@ import sys
 sys.path.insert(0, "inhun_discord_chat_bot_2 경로")
 from parser import *
 
-
-#api info
-api_info =(
-            '[인헌고 알리미 정보]\n'
-            '개발자 : '
-            )
-
+api_info = '__인헌고 알리미 정보__\n개발자 : '
+_else = "[*]현재 챗봇과 연결되어 있습니다.\n 상담을 원하시면 '상담원로 전환하기' 버튼을 누르시고 메세지를 보내주세요."
 
 def get_meal(dt):
 
     local_date = dt.strftime("%Y.%m.%d")
     local_weekday = dt.weekday()
-    
+
     l_l = get_diet(2, local_date, local_weekday)
 
     if len(l_l) == 1:
@@ -28,7 +23,6 @@ def get_meal(dt):
 
     else:
         d_d = get_diet(3, local_date, local_weekday)
-        print('hi5')
         if len(d_d) == 1:
             lunch = local_date + " 중식\n" + l_l
             dinner = ""
@@ -47,7 +41,7 @@ def ret_proc(output):
             },
             'keyboard': {
                 'type':'buttons',
-                'buttons':['오늘 급식','내일 급식','API 정보']
+                'buttons':['오늘 급식','내일 급식','여름 방학','API 정보']
             }
         })
 
@@ -56,7 +50,7 @@ def keyboard(request):
 
     return JsonResponse({
         'type':'buttons',
-        'buttons':['오늘 급식','내일 급식','API 정보']
+        'buttons':['오늘 급식','내일 급식','여름 방학','API 정보']
     })
 
 @csrf_exempt
@@ -78,5 +72,17 @@ def answer(request):
         diet = get_meal(dt)
         return ret_proc(diet)
 
+    elif datacontent == '여름 방학':
+        td = datetime.date.today()
+        sd = datetime.date(2018, 7, 20)
+
+        delta = sd - td
+        int(delta.days)
+        dday = "[-]개학식까지 %d일 남았습니다." % (delta.days)
+        return ret_proc(dday)
+
     elif datacontent == 'API 정보':
         return ret_proc(api_info)
+
+    else:
+        return ret_proc(_else)
