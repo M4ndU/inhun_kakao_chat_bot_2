@@ -18,7 +18,9 @@ inhun_kakao_chat_bot_2
 -------------
 
 만약 parser.py를 views.py가 있는 경로로 옮겨두셨다면 views.py에서 아래 코드는 지우세요.
+
 import sys
+
 sys.path.insert(0, "inhun_discord_chat_bot_2 경로")
 
 - - -
